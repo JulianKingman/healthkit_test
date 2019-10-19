@@ -15,6 +15,7 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import AppleHealthKit from 'rn-apple-healthkit';
 import {map} from 'lodash';
@@ -86,6 +87,7 @@ const App: () => React$Node = () => {
                 },
                 (data, err) => {
                   console.log(data, err);
+                  Alert.alert('Done');
                 },
               );
             }}
@@ -93,11 +95,11 @@ const App: () => React$Node = () => {
           <Button
             text="Recursively Get Anchored Data"
             onPress={() => {
-              const getData = () =>
+              const getData = async () =>
                 new Promise(resolve => {
                   AppleHealthKit.readHealthDataByAnchor(
                     {
-                      permissions: _.map(
+                      permissions: map(
                         AppleHealthKit.Constants.Permissions,
                         v => v,
                       ),
@@ -105,10 +107,19 @@ const App: () => React$Node = () => {
                       fromDate: '1800-01-01',
                       toDate: moment().format('YYYY-MM-DD'),
                     },
-                    data => {
-                      if (!data) resolve(true);
-                      console.log(data);
-                      resolve(getData());
+                    (data, err) => {
+                      if (!data) {
+                        Alert.alert('Done');
+                        resolve(true);
+                        return;
+                      }
+                      console.log(
+                        'Data',
+                        data && data[0]
+                          ? map(data[0], (d, k) => `${k}: ${d.length}`)
+                          : data,
+                      );
+                      return resolve(getData());
                     },
                   );
                 });
