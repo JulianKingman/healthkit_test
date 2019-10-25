@@ -5,7 +5,7 @@
  * @format
  * @flow
  */
-
+​
 import React from 'react';
 import {
   SafeAreaView,
@@ -20,7 +20,7 @@ import {
 import AppleHealthKit from 'rn-apple-healthkit';
 import {map} from 'lodash';
 import moment from 'moment';
-
+​
 import {
   Header,
   LearnMoreLinks,
@@ -29,7 +29,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import Button from './Button';
-
+​
 const App: () => React$Node = () => {
   return (
     <>
@@ -109,6 +109,7 @@ const App: () => React$Node = () => {
                     },
                     (data, err) => {
                       if (!data) {
+                        console.log('No anchored data');
                         Alert.alert('Done');
                         resolve(true);
                         return;
@@ -119,6 +120,7 @@ const App: () => React$Node = () => {
                           ? map(data[0], (d, k) => `${k}: ${d.length}`)
                           : data,
                       );
+                      console.log(data, err);
                       return resolve(getData());
                     },
                   );
@@ -126,12 +128,48 @@ const App: () => React$Node = () => {
               getData();
             }}
           />
+          <Button
+            text="Drop Anchors"
+            onPress={() => {
+              AppleHealthKit.dropAnchors(
+                {
+                  permissions: map(
+                    AppleHealthKit.Constants.Permissions,
+                    v => v,
+                  ),
+                  userid: 'test',
+                },
+                (data, err) => {
+                  console.log(data, err);
+                  Alert.alert('Done');
+                },
+              );
+            }}
+          />
+          <Button
+            text="Clear Anchors"
+            onPress={() => {
+              AppleHealthKit.clearAnchors(
+                {
+                  permissions: map(
+                    AppleHealthKit.Constants.Permissions,
+                    v => v,
+                  ),
+                  userid: 'test',
+                },
+                (data, err) => {
+                  console.log(data, err);
+                  Alert.alert('Done');
+                },
+              );
+            }}
+          />
         </View>
       </SafeAreaView>
     </>
   );
 };
-
+​
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
@@ -170,5 +208,5 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-
+​
 export default App;
