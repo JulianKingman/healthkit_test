@@ -164,6 +164,34 @@ const App: () => React$Node = () => {
               );
             }}
           />
+          <Button
+            text="Clear Steps Anchor"
+            onPress={() => {
+              AppleHealthKit.clearAnchors(
+                {
+                  anchorKey: 'HKQuantityTypeIdentifierStepCount',
+                },
+                (data, err) => {
+                  console.log(data, err);
+                  Alert.alert('Done');
+                },
+              );
+            }}
+          />
+          <Button
+            text="Drop Steps Anchor"
+            onPress={() => {
+              AppleHealthKit.dropAnchors(
+                {
+                  anchorKey: 'HKQuantityTypeIdentifierStepCount',
+                },
+                (data, err) => {
+                  console.log(data, err);
+                  Alert.alert('Done');
+                },
+              );
+            }}
+          />
         </View>
       </SafeAreaView>
     </>
