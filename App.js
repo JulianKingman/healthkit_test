@@ -5,7 +5,7 @@
  * @format
  * @flow
  */
-
+​
 import React from 'react';
 import {
   SafeAreaView,
@@ -20,7 +20,7 @@ import {
 import AppleHealthKit from 'rn-apple-healthkit';
 import {map} from 'lodash';
 import moment from 'moment';
-
+​
 import {
   Header,
   LearnMoreLinks,
@@ -29,7 +29,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import Button from './Button';
-
+​
 const App: () => React$Node = () => {
   return (
     <>
@@ -197,7 +197,7 @@ const App: () => React$Node = () => {
     </>
   );
 };
-
+​
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
@@ -236,5 +236,5 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-
+​
 export default App;
