@@ -95,37 +95,79 @@ const App: () => React$Node = () => {
           <Button
             text="Recursively Get Anchored Data"
             onPress={() => {
-              const getData = async () =>
-                new Promise(resolve => {
-                  AppleHealthKit.readHealthDataByAnchor(
-                    {
-                      permissions: map(
-                        AppleHealthKit.Constants.Permissions,
-                        v => v,
-                      ),
-                      userid: 'test',
-                      fromDate: '1800-01-01',
-                      toDate: moment().format('YYYY-MM-DD'),
-                    },
-                    (data, err) => {
-                      if (!data) {
-                        console.log('No anchored data');
-                        Alert.alert('Done');
-                        resolve(true);
-                        return;
-                      }
-                      console.log(
-                        'Data',
-                        data && data[0]
-                          ? map(data[0], (d, k) => `${k}: ${d.length}`)
-                          : data,
-                      );
-                      console.log(data, err);
-                      return resolve(getData());
-                    },
-                  );
-                });
-              getData();
+              // const getData = async () =>
+              //   new Promise(resolve => {
+              //     AppleHealthKit.readHealthDataByAnchor(
+              //       {
+              //         permissions: map(
+              //           AppleHealthKit.Constants.Permissions,
+              //           v => v,
+              //         ),
+              //         userid: 'test',
+              //         fromDate: '1800-01-01',
+              //         toDate: moment().format('YYYY-MM-DD'),
+              //       },
+              //       (data, err) => {
+              //         if (!data) {
+              //           console.log('No anchored data');
+              //           Alert.alert('Done');
+              //           resolve(true);
+              //           return;
+              //         }
+              //         console.log(
+              //           'Data',
+              //           data && data[0]
+              //             ? map(data[0], (d, k) => `${k}: ${d.length}`)
+              //             : data,
+              //         );
+              //         console.log(data, err);
+              //         return resolve(getData());
+              //       },
+              //     );
+              //   });
+              // getData();
+
+              const allMetrics = [
+
+              'Protein',
+              'OxygenSaturation',
+              'BasalBodyTemperature',
+              'RestingHeartRate',
+              'BodyFatPercentage',
+              'WaistCircumference',
+              'MindfulSession',
+              'BloodGlucose',
+              'FatPolyunsaturated',
+              'SleepAnalysis',
+              'FatMonounsaturated',
+              'Weight',
+              'ActiveEnergyBurned',
+              'FatTotal',
+              'VO2Max',
+              'FatSaturated',
+              'RespiratoryRate',
+              'Steps',
+              'Carbohydrates',
+              'HeartRate',
+              'BodyMassIndex',
+              'HeartRateVariability',
+              'BloodPressureDiastolic',
+              'BodyTemperature',
+              'EnergyConsumed',
+              ];
+              const getMetricReadings = async (metrics) => {
+                if (!metrics.length) return true;
+                const metric = metrics.pop();
+                const healthkitData = await new Promise(resolve => AppleHealthKit.readHealthDataByAnchor({
+                  metric, // or permissions, or whatever the key is
+                }, (err, res) => {
+                  resolve({err, res});
+                }));
+                // App does stuff here
+                console.log({healthkitData});
+                return getMetricReadings(metrics)
+              }
+              getMetricReadings(allMetrics);
             }}
           />
           <Button
