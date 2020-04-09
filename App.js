@@ -234,6 +234,14 @@ const App: () => React$Node = () => {
               );
             }}
           />
+          <Button text="Set Step Observer Query"  onPress={() => {
+            AppleHealthKit.setObservers({
+              metrics: ['HKQuantityTypeIdentifierStepCount']
+            }, (err, { identifier, data, finish}) => {
+              console.log({err, identifier, data});
+              finish(true);
+            })
+          }}/>
         </View>
       </SafeAreaView>
     </>
