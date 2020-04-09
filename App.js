@@ -236,7 +236,7 @@ const App: () => React$Node = () => {
           />
           <Button text="Set Step Observer Query"  onPress={() => {
             AppleHealthKit.setObservers({
-              metrics: ['HKQuantityTypeIdentifierStepCount']
+              metrics: ['HKQuantityTypeIdentifierStepCount', 'HKQuantityTypeIdentifierHeartRate']
             }, (err, { identifier, data, finish}) => {
               console.log({err, identifier, data});
               finish(true);
