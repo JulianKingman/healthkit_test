@@ -5,7 +5,6 @@
  * @format
  * @flow
  */
-​
 import React from 'react';
 import {
   SafeAreaView,
@@ -20,7 +19,7 @@ import {
 import AppleHealthKit from 'rn-apple-healthkit';
 import {map} from 'lodash';
 import moment from 'moment';
-​
+
 import {
   Header,
   LearnMoreLinks,
@@ -29,23 +28,20 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import Button from './Button';
-​
+
 const App: () => React$Node = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <View
-          style={[
-            StyleSheet.absoluteFillObject,
-            {
-              padding: 30,
-              paddingTop: 100,
-              flex: 1,
-              alignItems: 'stretch',
-              justifyContent: 'flex-start',
-            },
-          ]}>
+        <ScrollView
+          containerStyle={[StyleSheet.absoluteFillObject]}
+          contentContainerStyle={{
+            alignItems: 'stretch',
+            justifyContent: 'flex-start',
+            padding: 30,
+            paddingTop: 60,
+          }}>
           <Button
             text="Connect HK"
             onPress={() => {
@@ -128,45 +124,49 @@ const App: () => React$Node = () => {
               // getData();
 
               const allMetrics = [
-
-              'Protein',
-              'OxygenSaturation',
-              'BasalBodyTemperature',
-              'RestingHeartRate',
-              'BodyFatPercentage',
-              'WaistCircumference',
-              'MindfulSession',
-              'BloodGlucose',
-              'FatPolyunsaturated',
-              'SleepAnalysis',
-              'FatMonounsaturated',
-              'Weight',
-              'ActiveEnergyBurned',
-              'FatTotal',
-              'VO2Max',
-              'FatSaturated',
-              'RespiratoryRate',
-              'Steps',
-              'Carbohydrates',
-              'HeartRate',
-              'BodyMassIndex',
-              'HeartRateVariability',
-              'BloodPressureDiastolic',
-              'BodyTemperature',
-              'EnergyConsumed',
+                'Protein',
+                'OxygenSaturation',
+                'BasalBodyTemperature',
+                'RestingHeartRate',
+                'BodyFatPercentage',
+                'WaistCircumference',
+                'MindfulSession',
+                'BloodGlucose',
+                'FatPolyunsaturated',
+                'SleepAnalysis',
+                'FatMonounsaturated',
+                'Weight',
+                'ActiveEnergyBurned',
+                'FatTotal',
+                'VO2Max',
+                'FatSaturated',
+                'RespiratoryRate',
+                'Steps',
+                'Carbohydrates',
+                'HeartRate',
+                'BodyMassIndex',
+                'HeartRateVariability',
+                'BloodPressureDiastolic',
+                'BodyTemperature',
+                'EnergyConsumed',
               ];
-              const getMetricReadings = async (metrics) => {
+              const getMetricReadings = async metrics => {
                 if (!metrics.length) return true;
                 const metric = metrics.pop();
-                const healthkitData = await new Promise(resolve => AppleHealthKit.readHealthDataByAnchor({
-                  metric, // or permissions, or whatever the key is
-                }, (err, res) => {
-                  resolve({err, res});
-                }));
+                const healthkitData = await new Promise(resolve =>
+                  AppleHealthKit.readHealthDataByAnchor(
+                    {
+                      metric, // or permissions, or whatever the key is
+                    },
+                    (err, res) => {
+                      resolve({err, res});
+                    },
+                  ),
+                );
                 // App does stuff here
                 console.log({healthkitData});
-                return getMetricReadings(metrics)
-              }
+                return getMetricReadings(metrics);
+              };
               getMetricReadings(allMetrics);
             }}
           />
@@ -234,20 +234,29 @@ const App: () => React$Node = () => {
               );
             }}
           />
-          <Button text="Set Step Observer Query"  onPress={() => {
-            AppleHealthKit.setObservers({
-              metrics: ['HKQuantityTypeIdentifierStepCount', 'HKQuantityTypeIdentifierHeartRate']
-            }, (err, { identifier, data, finish}) => {
-              console.log({err, identifier, data});
-              finish(true);
-            })
-          }}/>
-        </View>
+          <Button
+            text="Set Step Observer Query"
+            onPress={() => {
+              AppleHealthKit.setObservers(
+                {
+                  metrics: [
+                    'HKQuantityTypeIdentifierStepCount',
+                    'HKQuantityTypeIdentifierHeartRate',
+                  ],
+                },
+                (err, {identifier, data, finish}) => {
+                  console.log({err, identifier, data});
+                  finish(true);
+                },
+              );
+            }}
+          />
+        </ScrollView>
       </SafeAreaView>
     </>
   );
 };
-​
+
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
@@ -286,5 +295,5 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-​
+
 export default App;
