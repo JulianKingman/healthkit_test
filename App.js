@@ -6,6 +6,7 @@
  * @flow
  */
 import React from 'react';
+import { NativeModules } from 'react-native'
 import {
   SafeAreaView,
   StyleSheet,
@@ -28,6 +29,9 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import Button from './Button';
+
+//console.log(NativeModules.Counter.increment())
+
 
 const App: () => React$Node = () => {
   return (
@@ -79,7 +83,7 @@ const App: () => React$Node = () => {
                     AppleHealthKit.Constants.Permissions,
                     v => v,
                   ),
-                  userid: 'test',
+                  userId: 'test',
                 },
                 (data, err) => {
                   console.log(data, err);
@@ -99,7 +103,7 @@ const App: () => React$Node = () => {
               //           AppleHealthKit.Constants.Permissions,
               //           v => v,
               //         ),
-              //         userid: 'test',
+              //         userId: 'test',
               //         fromDate: '1800-01-01',
               //         toDate: moment().format('YYYY-MM-DD'),
               //       },
@@ -124,6 +128,7 @@ const App: () => React$Node = () => {
               // getData();
 
               const allMetrics = [
+                'ActiveEnergyBurned',
                 'Protein',
                 'OxygenSaturation',
                 'BasalBodyTemperature',
@@ -136,19 +141,18 @@ const App: () => React$Node = () => {
                 'SleepAnalysis',
                 'FatMonounsaturated',
                 'Weight',
-                'ActiveEnergyBurned',
                 'FatTotal',
                 'VO2Max',
                 'FatSaturated',
                 'RespiratoryRate',
-                'Steps',
                 'Carbohydrates',
                 'HeartRate',
                 'BodyMassIndex',
                 'HeartRateVariability',
-                'BloodPressureDiastolic',
+                'BloodPressure',
                 'BodyTemperature',
                 'EnergyConsumed',
+                'Steps',
               ];
               const getMetricReadings = async metrics => {
                 if (!metrics.length) return true;
@@ -157,6 +161,7 @@ const App: () => React$Node = () => {
                   AppleHealthKit.readHealthDataByAnchor(
                     {
                       metric, // or permissions, or whatever the key is
+                      userId: 'test',
                     },
                     (err, res) => {
                       resolve({err, res});
@@ -167,6 +172,7 @@ const App: () => React$Node = () => {
                 console.log({healthkitData});
                 return getMetricReadings(metrics);
               };
+              Alert.alert('Done');
               getMetricReadings(allMetrics);
             }}
           />
@@ -179,7 +185,7 @@ const App: () => React$Node = () => {
                     AppleHealthKit.Constants.Permissions,
                     v => v,
                   ),
-                  userid: 'test',
+                  userId: 'test',
                 },
                 (data, err) => {
                   console.log(data, err);
@@ -191,19 +197,24 @@ const App: () => React$Node = () => {
           <Button
             text="Clear Anchors"
             onPress={() => {
-              AppleHealthKit.clearAnchors(
-                {
-                  permissions: map(
-                    AppleHealthKit.Constants.Permissions,
-                    v => v,
-                  ),
-                  userid: 'test',
-                },
-                (data, err) => {
-                  console.log(data, err);
-                  Alert.alert('Done');
-                },
-              );
+              NativeModules.AppleHealth.isHealthKitAvailable((data, err) => {
+                console.log(data, err);
+                Alert.alert('Done');
+              },);
+
+              // AppleHealthKit.clearAnchors(
+              //   {
+              //     permissions: map(
+              //       AppleHealthKit.Constants.Permissions,
+              //       v => v,
+              //     ),
+              //     userId: 'test',
+              //   },
+              //   (data, err) => {
+              //     console.log(data, err);
+              //     Alert.alert('Done');
+              //   },
+              // );
             }}
           />
           <Button
@@ -240,13 +251,36 @@ const App: () => React$Node = () => {
               AppleHealthKit.setObservers(
                 {
                   metrics: [
-                    'HKQuantityTypeIdentifierStepCount',
-                    'HKQuantityTypeIdentifierHeartRate',
+                    "Weight",
+                    // 'Steps',
+                    // 'HeartRate',
+                    // 'Protein',
+                    // 'OxygenSaturation',
+                    // 'BasalBodyTemperature',
+                    // 'RestingHeartRate',
+                    // 'BodyFatPercentage',
+                    // 'WaistCircumference',
+                    // 'MindfulSession',
+                    // 'BloodGlucose',
+                    // 'FatPolyunsaturated',
+                    // 'SleepAnalysis',
+                    // 'FatMonounsaturated',
+                    // 'ActiveEnergyBurned',
+                    // 'FatTotal',
+                    // 'VO2Max',
+                    // 'FatSaturated',
+                    // 'RespiratoryRate',
+                    // 'Carbohydrates',
+                    // 'BodyMassIndex',
+                    // 'HeartRateVariability',
+                    // 'BloodPressure',
+                    // 'BodyTemperature',
+                    // 'EnergyConsumed',
                   ],
                 },
                 (err, {identifier, data, finish}) => {
                   console.log({err, identifier, data});
-                  finish(true);
+                  //finish(true);
                 },
               );
             }}
