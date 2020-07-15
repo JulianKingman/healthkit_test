@@ -16,6 +16,7 @@ import {
   StatusBar,
   TouchableOpacity,
   Alert,
+  AppleHealth,
 } from 'react-native';
 import AppleHealthKit from 'rn-apple-healthkit';
 import {map} from 'lodash';
@@ -48,8 +49,10 @@ const App: () => React$Node = () => {
           }}>
           <Button
             text="Connect HK"
+
             onPress={() => {
-              AppleHealthKit.initHealthKit(
+
+              NativeModules.AppleHealth.initHealthKit(
                 {
                   permissions: {
                     read: map(AppleHealthKit.Constants.Permissions, v => v),
@@ -158,7 +161,7 @@ const App: () => React$Node = () => {
                 if (!metrics.length) return true;
                 const metric = metrics.pop();
                 const healthkitData = await new Promise(resolve =>
-                  AppleHealthKit.readHealthDataByAnchor(
+                  AppleHealth.readHealthDataByAnchor(
                     {
                       metric, // or permissions, or whatever the key is
                       userId: 'test',
@@ -197,12 +200,32 @@ const App: () => React$Node = () => {
           <Button
             text="Clear Anchors"
             onPress={() => {
-              NativeModules.AppleHealth.isHealthKitAvailable((data, err) => {
+
+              // NativeModules.AppleHealth.startTrack(
+              //   { artist: "Bruce Springsteen", title: "Born in the USA" },
+              //   [{ url: "url", type: "image" }, { url: "another url", type: "link" }]
+              // );
+
+              NativeModules.AppleHealth.isAvailable((data, err) => {
                 console.log(data, err);
                 Alert.alert('Done');
               },);
 
-              // AppleHealthKit.clearAnchors(
+              NativeModules.AppleHealth.clearAnchors(
+                {
+                  permissions: map(
+                    AppleHealthKit.Constants.Permissions,
+                    v => v,
+                  ),
+                  userId: 'test',
+                },
+                (data, err) => {
+                  console.log(data, err);
+                  Alert.alert('Done');
+                },
+              );
+
+              // AppleHealth.clearAnchors(
               //   {
               //     permissions: map(
               //       AppleHealthKit.Constants.Permissions,
