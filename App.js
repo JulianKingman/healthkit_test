@@ -161,7 +161,60 @@ const App: () => React$Node = () => {
                 if (!metrics.length) return true;
                 const metric = metrics.pop();
                 const healthkitData = await new Promise(resolve =>
-                  AppleHealth.readHealthDataByAnchor(
+                  NativeModules.AppleHealth.readHealthDataByAnchor(
+                    {
+                      metric, // or permissions, or whatever the key is
+                      userId: 'test',
+                    },
+                    (err, res) => {
+                      resolve({err, res});
+                    },
+                  ),
+                );
+                // App does stuff here
+                console.log({healthkitData});
+                return getMetricReadings(metrics);
+              };
+              Alert.alert('Done');
+              getMetricReadings(allMetrics);
+            }}
+          />
+          <Button
+            text="(Old) Get Anchored Data"
+            onPress={() => {
+
+              const allMetrics = [
+                'ActiveEnergyBurned',
+                'Protein',
+                'OxygenSaturation',
+                'BasalBodyTemperature',
+                'RestingHeartRate',
+                'BodyFatPercentage',
+                'WaistCircumference',
+                'MindfulSession',
+                'BloodGlucose',
+                'FatPolyunsaturated',
+                'SleepAnalysis',
+                'FatMonounsaturated',
+                'Weight',
+                'FatTotal',
+                'VO2Max',
+                'FatSaturated',
+                'RespiratoryRate',
+                'Carbohydrates',
+                'HeartRate',
+                'BodyMassIndex',
+                'HeartRateVariability',
+                'BloodPressure',
+                'BodyTemperature',
+                'EnergyConsumed',
+                'Steps',
+              ];
+              const getMetricReadings = async metrics => {
+                if (!metrics.length) return true;
+                const metric = metrics.pop();
+                const healthkitData = await new Promise(resolve =>
+                  AppleHealthKit.readHealthDataByAnchor(
                     {
                       metric, // or permissions, or whatever the key is
                       userId: 'test',
