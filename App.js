@@ -235,7 +235,7 @@ const App: () => React$Node = () => {
           <Button
             text="Drop Anchors"
             onPress={() => {
-              AppleHealthKit.dropAnchors(
+              NativeModules.AppleHealth.dropAnchors(
                 {
                   permissions: map(
                     AppleHealthKit.Constants.Permissions,
@@ -310,7 +310,7 @@ const App: () => React$Node = () => {
           <Button
             text="Drop Steps Anchor"
             onPress={() => {
-              AppleHealthKit.dropAnchors(
+              NativeModules.AppleHealth.dropAnchors(
                 {
                   anchorKey: 'HKQuantityTypeIdentifierStepCount',
                 },
