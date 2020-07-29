@@ -324,7 +324,7 @@ const App: () => React$Node = () => {
           <Button
             text="Set Step Observer Query"
             onPress={() => {
-              AppleHealthKit.setObservers(
+              NativeModules.AppleHealth.setObservers(
                 {
                   metrics: [
                     "Weight",
@@ -353,6 +353,7 @@ const App: () => React$Node = () => {
                     // 'BodyTemperature',
                     // 'EnergyConsumed',
                   ],
+                  userId: 'test',
                 },
                 (err, {identifier, data, finish}) => {
                   console.log({err, identifier, data});
