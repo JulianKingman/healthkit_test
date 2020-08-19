@@ -141,7 +141,7 @@ const App: () => React$Node = () => {
                 // 'MindfulSession',
                 // 'BloodGlucose',
                 // 'FatPolyunsaturated',
-                'SleepAnalysis',
+                 'SleepAnalysis',
                 // 'FatMonounsaturated',
                 // 'Weight',
                 // 'FatTotal',
@@ -165,6 +165,9 @@ const App: () => React$Node = () => {
                     {
                       metric, // or permissions, or whatever the key is
                       userId: 'test',
+                      client: 'Ea8vpcMxfxhMCIzInp_jeA',
+                      uid: 'kevinm@oakleafsd.com',
+                      access_token: 'EFGCmY9dabcW9NtoM2aJLg'
                     },
                     (err, res) => {
                       resolve({err, res});
