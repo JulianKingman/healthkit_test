@@ -131,31 +131,31 @@ const App: () => React$Node = () => {
               // getData();
 
               const allMetrics = [
-                //' ActiveEnergyBurned',
-                // 'Protein',
-                // 'OxygenSaturation',
-                // 'BasalBodyTemperature',
-                // 'RestingHeartRate',
+                //  'Steps',
+                // 'ActiveEnergyBurned',
+                //  'Weight',
+                //  'EnergyConsumed',
+                // 'Carbohydrates',
+                // 'FatSaturated',
+                // 'FatMonounsaturated',
+                // 'FatPolyunsaturated',
+                // 'FatTotal',
+                 'Protein',
                 // 'BodyFatPercentage',
+                // 'RestingHeartRate',
+                // 'HeartRate',
+                // 'OxygenSaturation',
+                // 'HeartRateVariability',
                 // 'WaistCircumference',
+                // 'BodyTemperature',
+                // 'BasalBodyTemperature',
                 // 'MindfulSession',
                 // 'BloodGlucose',
-                // 'FatPolyunsaturated',
-                 'SleepAnalysis',
-                // 'FatMonounsaturated',
-                // 'Weight',
-                // 'FatTotal',
                 // 'VO2Max',
-                // 'FatSaturated',
-                // 'RespiratoryRate',
-                // 'Carbohydrates',
-                // 'HeartRate',
                 // 'BodyMassIndex',
-                // 'HeartRateVariability',
                 // 'BloodPressure',
-                // 'BodyTemperature',
-                // 'EnergyConsumed',
-                // 'Steps',
+                //  'SleepAnalysis',
+                //'RespiratoryRate',
               ];
               const getMetricReadings = async metrics => {
                 if (!metrics.length) return true;
@@ -164,7 +164,7 @@ const App: () => React$Node = () => {
                   NativeModules.AppleHealth.readHealthDataByAnchor(
                     {
                       metric, // or permissions, or whatever the key is
-                      userId: 'test',
+                      userId: '352',
                       client: 'Ea8vpcMxfxhMCIzInp_jeA',
                       uid: 'kevinm@oakleafsd.com',
                       access_token: 'EFGCmY9dabcW9NtoM2aJLg'
