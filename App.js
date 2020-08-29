@@ -86,7 +86,7 @@ const App: () => React$Node = () => {
                     AppleHealthKit.Constants.Permissions,
                     v => v,
                   ),
-                  userId: 'test',
+                  userId: '352',
                 },
                 (data, err) => {
                   console.log(data, err);
@@ -106,7 +106,7 @@ const App: () => React$Node = () => {
               //           AppleHealthKit.Constants.Permissions,
               //           v => v,
               //         ),
-              //         userId: 'test',
+              //         userId: '352',
               //         fromDate: '1800-01-01',
               //         toDate: moment().format('YYYY-MM-DD'),
               //       },
@@ -220,7 +220,7 @@ const App: () => React$Node = () => {
                   AppleHealthKit.readHealthDataByAnchor(
                     {
                       metric, // or permissions, or whatever the key is
-                      userId: 'test',
+                      userId: '352',
                     },
                     (err, res) => {
                       resolve({err, res});
@@ -244,7 +244,7 @@ const App: () => React$Node = () => {
                     AppleHealthKit.Constants.Permissions,
                     v => v,
                   ),
-                  userId: 'test',
+                  userId: '352',
                 },
                 (data, err) => {
                   console.log(data, err);
@@ -273,7 +273,7 @@ const App: () => React$Node = () => {
                     AppleHealthKit.Constants.Permissions,
                     v => v,
                   ),
-                  userId: 'test',
+                  userId: '352',
                 },
                 (data, err) => {
                   console.log(data, err);
@@ -287,7 +287,7 @@ const App: () => React$Node = () => {
               //       AppleHealthKit.Constants.Permissions,
               //       v => v,
               //     ),
-              //     userId: 'test',
+              //     userId: '352',
               //   },
               //   (data, err) => {
               //     console.log(data, err);
@@ -356,7 +356,7 @@ const App: () => React$Node = () => {
                     // 'BodyTemperature',
                     // 'EnergyConsumed',
                   ],
-                  userId: 'test',
+                  userId: '352',
                 },
                 (err, {identifier, data, finish}) => {
                   console.log({err, identifier, data});
