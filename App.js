@@ -54,6 +54,7 @@ const App: () => React$Node = () => {
 
               NativeModules.AppleHealth.initHealthKit(
                 {
+                  apiUploadEndpoint: 'https://beta.headsuphealth.com/api/v1/integrations/health_kit/upload_v3',
                   permissions: {
                     read: map(AppleHealthKit.Constants.Permissions, v => v),
                     write: map(AppleHealthKit.Constants.Permissions, v => v),
@@ -131,16 +132,13 @@ const App: () => React$Node = () => {
               // getData();
 
               const allMetrics = [
-                 'Steps',
-                'ActiveEnergyBurned',
-                 'Weight',
-                 'EnergyConsumed',
-                'Carbohydrates',
-                'FatSaturated',
-                'FatMonounsaturated',
-                'FatPolyunsaturated',
-                'FatTotal',
-                'Protein',
+                   'Steps',
+                  'ActiveEnergyBurned',
+                  'Weight',
+                  'EnergyConsumed',
+                  'Carbohydrates',
+                  'FatTotal',
+                  'Protein',
                  'BodyFatPercentage',
                 'RestingHeartRate',
                 'HeartRate',
@@ -154,14 +152,17 @@ const App: () => React$Node = () => {
                 'VO2Max',
                 'BodyMassIndex',
                 'BloodPressure',
-                 'SleepAnalysis',
+                'SleepAnalysis',
                 // 'RespiratoryRate',
+                // 'FatSaturated',
+                // 'FatMonounsaturated',
+                // 'FatPolyunsaturated',
               ];
               const getMetricReadings = async metrics => {
                 if (!metrics.length) return true;
                 const metric = metrics.pop();
-                const healthkitData = await new Promise(resolve =>
-                  NativeModules.AppleHealth.readHealthDataByAnchor(
+                const result = await new Promise(resolve =>
+                  NativeModules.AppleHealth.uploadHealthDataByAnchor(
                     {
                       metric, // or permissions, or whatever the key is
                       userId: '352',
@@ -170,12 +171,12 @@ const App: () => React$Node = () => {
                       access_token: 'EFGCmY9dabcW9NtoM2aJLg'
                     },
                     (err, res) => {
-                      resolve({err, res});
+                      console.log('Metric, Upload err, result', metric, err, res)
+                      resolve({result});
                     },
                   ),
                 );
                 // App does stuff here
-                console.log({healthkitData});
                 return getMetricReadings(metrics);
               };
               Alert.alert('Done');
@@ -262,8 +263,8 @@ const App: () => React$Node = () => {
               //   [{ url: "url", type: "image" }, { url: "another url", type: "link" }]
               // );
 
-              NativeModules.AppleHealth.isAvailable((data, err) => {
-                console.log(data, err);
+              NativeModules.AppleHealth.isAvailable((err, res) => {
+                console.log('IsAvailable result: ', res);
                 Alert.alert('Done');
               },);
 
@@ -275,8 +276,8 @@ const App: () => React$Node = () => {
                   ),
                   userId: '352',
                 },
-                (data, err) => {
-                  console.log(data, err);
+                (result) => {
+                  console.log('Clear anchors result: ', result);
                   Alert.alert('Done');
                 },
               );
@@ -310,7 +311,7 @@ const App: () => React$Node = () => {
               );
             }}
           />
-          <Button
+          {/* <Button
             text="Drop Steps Anchor"
             onPress={() => {
               NativeModules.AppleHealth.dropAnchors(
@@ -323,9 +324,9 @@ const App: () => React$Node = () => {
                 },
               );
             }}
-          />
+          /> */}
           <Button
-            text="Set Step Observer Query"
+            text="Set Observer Query"
             onPress={() => {
               NativeModules.AppleHealth.setObservers(
                 {
