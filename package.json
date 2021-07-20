@@ -16,7 +16,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "react": "16.9.0",
-    "react-native": "0.61.2",
+    "react-native": "0.62.3",
     "react-native-fix-headers": "^1.2.2",
     "rn-apple-healthkit": "https://github.com/JulianKingman/rn-apple-healthkit"
   },
